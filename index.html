@@ -140,12 +140,14 @@ input[type=number]{
   display:flex;
   align-items:center;
   justify-content:center;
+  overflow:hidden;
 }
 
 .img-box img{
-  max-width:100%;
-  max-height:100%;
+  width:100%;
+  height:100%;
   object-fit:contain;
+  display:block;
 }
 
 /* ===== PRINT ===== */
@@ -165,8 +167,10 @@ input[type=number]{
   body{background:#fff;padding:0}
   .container{padding:0}
 
-  .order-ref input{
-    border:none;
+  /* ✅ FORCE IMAGE TO PRINT */
+  img{
+    display:block !important;
+    max-width:100% !important;
   }
 }
 </style>
@@ -241,7 +245,7 @@ input[type=number]{
 </div>
 
 <script>
-/* ===== ORDER REF AUTO ===== */
+/* ===== ORDER REF ===== */
 (function(){
   const d=new Date();
   const ref="ORD-"+d.getFullYear()
@@ -271,7 +275,7 @@ function addRow(){
   `;
 }
 
-/* ===== DELETE ROW ===== */
+/* ===== DELETE ===== */
 function delRow(btn){
   btn.closest("tr").remove();
   renumber();
@@ -284,42 +288,41 @@ function renumber(){
   });
 }
 
-/* ===== CALCULATION (FIXED) ===== */
+/* ===== CALC ===== */
 function calc(){
   const rows=[...table.rows].slice(1);
-  let subTotal=0;
-  let gstTotal=0;
+  let subTotal=0,gstTotal=0;
 
   rows.forEach(r=>{
     const q=Number(r.cells[5].children[0].value)||0;
     const p=Number(r.cells[6].children[0].value)||0;
     const g=Number(r.cells[7].children[0].value)||0;
 
-    const amount=q*p;
-    const tax=amount*g/100;
+    const amt=q*p;
+    const tax=amt*g/100;
 
-    r.cells[8].innerText=(amount+tax).toFixed(2);
-    subTotal+=amount;
+    r.cells[8].innerText=(amt+tax).toFixed(2);
+    subTotal+=amt;
     gstTotal+=tax;
   });
 
-  document.getElementById("sub").innerText=subTotal.toFixed(2);
-  document.getElementById("gst").innerText=gstTotal.toFixed(2);
-  document.getElementById("grand").innerText=(subTotal+gstTotal).toFixed(2);
+  sub.innerText=subTotal.toFixed(2);
+  gst.innerText=gstTotal.toFixed(2);
+  grand.innerText=(subTotal+gstTotal).toFixed(2);
 }
 
-/* ===== IMAGE LOAD ===== */
+/* ===== IMAGE LOAD (FINAL FIX) ===== */
 function loadImg(input){
   if(!input.files || !input.files[0]) return;
   const img=input.previousElementSibling.querySelector("img");
   img.src=URL.createObjectURL(input.files[0]);
+  img.onload=()=>URL.revokeObjectURL(img.src);
 }
 
-/* ===== RESIZE COLUMNS ===== */
+/* ===== RESIZE ===== */
 document.querySelectorAll(".resizer").forEach(resizer=>{
   const th=resizer.parentElement;
   let startX,startWidth;
-
   resizer.addEventListener("mousedown",e=>{
     startX=e.pageX;
     startWidth=th.offsetWidth;
