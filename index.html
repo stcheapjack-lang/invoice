@@ -40,7 +40,7 @@ body{
   width:180px;
 }
 
-/* ===== HEADERS ===== */
+/* ===== SECTION ===== */
 .section-title{
   font-weight:bold;
   border-bottom:1px solid #000;
@@ -76,7 +76,7 @@ th{
   overflow-wrap:break-word;
 }
 
-/* ===== RESIZABLE HANDLE ===== */
+/* ===== RESIZER ===== */
 .resizer{
   position:absolute;
   right:0;
@@ -125,17 +125,27 @@ input[type=number]{
   padding-top:6px;
 }
 
-/* ===== IMAGE ===== */
+/* ===== IMAGE AREA ===== */
 .image-area{
   display:flex;
   gap:20px;
   margin-top:10px;
+  flex-wrap:wrap;
 }
 
 .img-box{
   width:120px;
   height:120px;
   border:1px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.img-box img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
 }
 
 /* ===== PRINT ===== */
@@ -175,10 +185,12 @@ input[type=number]{
   </div>
 </div>
 
+<!-- CUSTOMER DETAILS -->
 <div class="section-title">Customer Details</div>
 <textarea rows="1" placeholder="Customer Name"></textarea>
 <textarea rows="1" placeholder="Designation"></textarea>
 
+<!-- TABLE -->
 <table id="table">
 <tr>
   <th style="width:50px">S.No<div class="resizer"></div></th>
@@ -196,20 +208,32 @@ input[type=number]{
 
 <button class="btn" onclick="addRow()">+ Add Row</button>
 
+<!-- TOTALS -->
 <div class="summary">
   <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
   <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
   <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
 </div>
 
+<!-- REMARKS -->
 <div class="section-title">Remarks / Special Instructions</div>
 <textarea rows="3"></textarea>
 
+<!-- IMAGES -->
 <div class="section-title">Reference Images</div>
 <div class="image-area">
-  <div><div class="img-box"></div><input type="file"></div>
-  <div><div class="img-box"></div><input type="file"></div>
-  <div><div class="img-box"></div><input type="file"></div>
+  <div>
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+  </div>
+  <div>
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+  </div>
+  <div>
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+  </div>
 </div>
 
 <button class="btn" onclick="window.print()">Print / PDF</button>
@@ -219,8 +243,8 @@ input[type=number]{
 <script>
 /* ===== ORDER REF AUTO ===== */
 (function(){
-  let d=new Date();
-  let ref="ORD-"+d.getFullYear()
+  const d=new Date();
+  const ref="ORD-"+d.getFullYear()
     +String(d.getMonth()+1).padStart(2,"0")
     +String(d.getDate()).padStart(2,"0")
     +"-"+Math.floor(100+Math.random()*900);
@@ -229,9 +253,9 @@ input[type=number]{
 
 /* ===== ADD ROW ===== */
 function addRow(){
-  let t=document.getElementById("table");
-  let r=t.insertRow();
-  let i=t.rows.length-1;
+  const t=document.getElementById("table");
+  const r=t.insertRow();
+  const i=t.rows.length-1;
 
   r.innerHTML=`
     <td>${i}</td>
@@ -243,38 +267,59 @@ function addRow(){
     <td><input type="number" oninput="calc()"></td>
     <td><input type="number" value="5" oninput="calc()"></td>
     <td>0.00</td>
-    <td class="del-col"><button onclick="this.closest('tr').remove()">X</button></td>
+    <td class="del-col"><button onclick="delRow(this)">X</button></td>
   `;
 }
 
-/* ===== CALC ===== */
+/* ===== DELETE ROW ===== */
+function delRow(btn){
+  btn.closest("tr").remove();
+  renumber();
+  calc();
+}
+
+function renumber(){
+  [...table.rows].forEach((r,i)=>{
+    if(i>0) r.cells[0].innerText=i;
+  });
+}
+
+/* ===== CALCULATION (FIXED) ===== */
 function calc(){
-  let rows = [...table.rows].slice(1);
-  let subTotal = 0;
-  let gstTotal = 0;
+  const rows=[...table.rows].slice(1);
+  let subTotal=0;
+  let gstTotal=0;
 
   rows.forEach(r=>{
-    let q = Number(r.cells[5].children[0].value) || 0;
-    let p = Number(r.cells[6].children[0].value) || 0;
-    let g = Number(r.cells[7].children[0].value) || 0;
+    const q=Number(r.cells[5].children[0].value)||0;
+    const p=Number(r.cells[6].children[0].value)||0;
+    const g=Number(r.cells[7].children[0].value)||0;
 
-    let amount = q * p;
-    let tax = amount * g / 100;
+    const amount=q*p;
+    const tax=amount*g/100;
 
-    r.cells[8].innerText = (amount + tax).toFixed(2);
-
-    subTotal += amount;
-    gstTotal += tax;
+    r.cells[8].innerText=(amount+tax).toFixed(2);
+    subTotal+=amount;
+    gstTotal+=tax;
   });
 
-  document.getElementById("sub").innerText = subTotal.toFixed(2);
-  document.getElementById("gst").innerText = gstTotal.toFixed(2);
-  document.getElementById("grand").innerText = (subTotal + gstTotal).toFixed(2);
+  document.getElementById("sub").innerText=subTotal.toFixed(2);
+  document.getElementById("gst").innerText=gstTotal.toFixed(2);
+  document.getElementById("grand").innerText=(subTotal+gstTotal).toFixed(2);
 }
+
+/* ===== IMAGE LOAD ===== */
+function loadImg(input){
+  if(!input.files || !input.files[0]) return;
+  const img=input.previousElementSibling.querySelector("img");
+  img.src=URL.createObjectURL(input.files[0]);
+}
+
 /* ===== RESIZE COLUMNS ===== */
 document.querySelectorAll(".resizer").forEach(resizer=>{
-  let th=resizer.parentElement;
+  const th=resizer.parentElement;
   let startX,startWidth;
+
   resizer.addEventListener("mousedown",e=>{
     startX=e.pageX;
     startWidth=th.offsetWidth;
