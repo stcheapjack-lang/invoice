@@ -20,6 +20,26 @@ body{
   padding:20px;
 }
 
+/* ===== HEADER ===== */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:10px;
+}
+
+.order-ref{
+  font-weight:bold;
+  font-size:14px;
+}
+
+.order-ref input{
+  border:none;
+  font-weight:bold;
+  font-size:14px;
+  width:180px;
+}
+
 /* ===== HEADERS ===== */
 .section-title{
   font-weight:bold;
@@ -134,22 +154,26 @@ input[type=number]{
 
   body{background:#fff;padding:0}
   .container{padding:0}
+
+  .order-ref input{
+    border:none;
+  }
 }
 </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
+<div class="container">
+
+<!-- HEADER -->
 <div class="header">
-  <h2>ORDER FORM</h2>
-  <div class="ref-box">
-    Order Ref:
+  <div></div>
+  <div class="order-ref">
+    Order Ref :
     <input type="text" id="orderRef">
   </div>
 </div>
-  
-<div class="container">
 
 <div class="section-title">Customer Details</div>
 <textarea rows="1" placeholder="Customer Name"></textarea>
@@ -193,6 +217,16 @@ input[type=number]{
 </div>
 
 <script>
+/* ===== ORDER REF AUTO ===== */
+(function(){
+  let d=new Date();
+  let ref="ORD-"+d.getFullYear()
+    +String(d.getMonth()+1).padStart(2,"0")
+    +String(d.getDate()).padStart(2,"0")
+    +"-"+Math.floor(100+Math.random()*900);
+  document.getElementById("orderRef").value=ref;
+})();
+
 /* ===== ADD ROW ===== */
 function addRow(){
   let t=document.getElementById("table");
@@ -215,36 +249,39 @@ function addRow(){
 
 /* ===== CALC ===== */
 function calc(){
-  let rows=[...table.rows].slice(1);
-  let sub=0,gst=0;
-  rows.forEach(r=>{
-    let q=+r.cells[5].children[0].value||0;
-    let p=+r.cells[6].children[0].value||0;
-    let g=+r.cells[7].children[0].value||0;
-    let amt=q*p;
-    let tax=amt*g/100;
-    r.cells[8].innerText=(amt+tax).toFixed(2);
-    sub+=amt; gst+=tax;
-  });
-  sub.innerText=sub.toFixed(2);
-  gst.innerText=gst.toFixed(2);
-  grand.innerText=(sub+gst).toFixed(2);
-}
+  let rows = [...table.rows].slice(1);
+  let subTotal = 0;
+  let gstTotal = 0;
 
+  rows.forEach(r=>{
+    let q = Number(r.cells[5].children[0].value) || 0;
+    let p = Number(r.cells[6].children[0].value) || 0;
+    let g = Number(r.cells[7].children[0].value) || 0;
+
+    let amount = q * p;
+    let tax = amount * g / 100;
+
+    r.cells[8].innerText = (amount + tax).toFixed(2);
+
+    subTotal += amount;
+    gstTotal += tax;
+  });
+
+  document.getElementById("sub").innerText = subTotal.toFixed(2);
+  document.getElementById("gst").innerText = gstTotal.toFixed(2);
+  document.getElementById("grand").innerText = (subTotal + gstTotal).toFixed(2);
+}
 /* ===== RESIZE COLUMNS ===== */
 document.querySelectorAll(".resizer").forEach(resizer=>{
   let th=resizer.parentElement;
-  let startX, startWidth;
-
+  let startX,startWidth;
   resizer.addEventListener("mousedown",e=>{
     startX=e.pageX;
     startWidth=th.offsetWidth;
     document.onmousemove=ev=>{
       th.style.width=startWidth+(ev.pageX-startX)+"px";
     };
-    document.onmouseup=()=>{
-      document.onmousemove=null;
-    };
+    document.onmouseup=()=>document.onmousemove=null;
   });
 });
 
@@ -253,4 +290,3 @@ addRow();
 
 </body>
 </html>
-
