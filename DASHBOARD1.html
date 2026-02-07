@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f6fb;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  background:#1f2937;
+  color:#fff;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.navbar .logo{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.navbar a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:14px;
+}
+
+/* ===== PAGE ===== */
+.container{
+  padding:30px;
+}
+
+h1{
+  margin-top:0;
+}
+
+/* ===== CARDS ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  gap:20px;
+  margin-top:20px;
+}
+
+.card{
+  background:#fff;
+  border-radius:8px;
+  padding:20px;
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+}
+
+.card h2{
+  margin:0 0 10px;
+  font-size:18px;
+}
+
+.card p{
+  margin:0;
+  color:#555;
+  font-size:14px;
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  text-align:center;
+  padding:15px;
+  font-size:13px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="navbar">
+  <div class="logo">STCHEAPJACK</div>
+  <div>
+    <a href="index.html">Dashboard</a>
+    <a href="quotation.html">Quotation</a>
+    <a href="order.html">Order</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="manufacturing.html">Manufacturing</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+  <h1>Dashboard</h1>
+  <p>Select an option to continue</p>
+
+  <div class="cards">
+    <div class="card" onclick="location.href='quotation.html'">
+      <h2>Quotation</h2>
+      <p>Create & print quotations for customers</p>
+    </div>
+
+    <div class="card" onclick="location.href='order.html'">
+      <h2>Order Form</h2>
+      <p>Create customer orders with images & pricing</p>
+    </div>
+
+    <div class="card" onclick="location.href='catalog.html'">
+      <h2>Product Catalog</h2>
+      <p>View & manage your product list</p>
+    </div>
+
+    <div class="card" onclick="location.href='manufacturing.html'">
+      <h2>Manufacturing Slip</h2>
+      <p>Generate production instructions</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  © 2026 STCHEAPJACK · Frontend Order System
+</div>
+
+</body>
+</html>
