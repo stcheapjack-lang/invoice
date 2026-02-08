@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard</title>
+<title>Order Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box}
@@ -13,126 +14,291 @@ body{
   background:#f4f6fb;
 }
 
-/* ===== NAVBAR ===== */
-.navbar{
+/* ===== LAYOUT ===== */
+.app{display:flex;min-height:100vh}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:220px;
   background:#1f2937;
   color:#fff;
-  padding:14px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  padding:20px 0;
+  position:fixed;
+  top:0;bottom:0;left:0;
 }
-
-.navbar .logo{
+.brand{
   font-size:18px;
   font-weight:bold;
+  padding:0 20px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.15);
 }
-
-.navbar a{
+.sidebar a{
+  display:block;
+  padding:12px 20px;
   color:#fff;
   text-decoration:none;
-  margin-left:18px;
-  font-size:14px;
 }
+.sidebar a.active,
+.sidebar a:hover{background:#374151}
 
-/* ===== PAGE ===== */
+/* ===== MAIN ===== */
+.main{
+  margin-left:220px;
+  padding:25px;
+  width:100%;
+  background:#f5f7fb;
+}
 .container{
-  padding:30px;
-}
-
-h1{
-  margin-top:0;
-}
-
-/* ===== CARDS ===== */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-  gap:20px;
-  margin-top:20px;
-}
-
-.card{
+  max-width:1200px;
+  margin:auto;
   background:#fff;
-  border-radius:8px;
   padding:20px;
-  cursor:pointer;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-  transition:0.2s;
 }
 
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+/* ===== HEADER ===== */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+.order-ref input{
+  border:none;
+  font-weight:bold;
+  width:180px;
 }
 
-.card h2{
-  margin:0 0 10px;
-  font-size:18px;
+/* ===== SECTION ===== */
+.section-title{
+  font-weight:bold;
+  border-bottom:1px solid #000;
+  margin:14px 0 6px;
 }
 
-.card p{
-  margin:0;
-  color:#555;
-  font-size:14px;
+/* ===== TABLE ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  margin-top:6px;
 }
-
-/* ===== FOOTER ===== */
-.footer{
+th,td{
+  border:1px solid #000;
+  padding:6px;
+  font-size:12px;
+  vertical-align:top;
+  word-wrap:break-word;
+}
+th{
+  background:#f0f0f0;
   text-align:center;
-  padding:15px;
-  font-size:13px;
-  color:#777;
+}
+tr{page-break-inside:avoid}
+
+/* ===== INPUTS ===== */
+textarea{
+  width:100%;
+  border:none;
+  resize:none;
+  font-family:inherit;
+  font-size:12px;
+}
+input[type=number]{
+  width:100%;
+  border:none;
+  text-align:center;
+}
+
+/* ===== BUTTON ===== */
+.btn{
+  padding:6px 12px;
+  font-weight:bold;
+  margin:6px 4px;
+}
+
+/* ===== TOTAL ===== */
+.summary{
+  width:320px;
+  margin-left:auto;
+}
+.summary div{
+  display:flex;
+  justify-content:space-between;
+}
+.summary h3{
+  border-top:1px solid #000;
+  padding-top:6px;
+}
+
+/* ===== IMAGE ===== */
+.image-area{
+  display:flex;
+  gap:20px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.img-card{
+  width:160px;
+}
+.img-box{
+  width:160px;
+  height:140px;
+  border:1px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.img-box img{
+  max-width:100%;
+  max-height:100%;
+}
+.img-note{
+  border:1px solid #000;
+  border-top:none;
+  padding:4px;
+  font-size:11px;
+  min-height:40px;
+}
+
+/* ===== PRINT ===== */
+@page{
+  size:A4;
+  margin:15mm;
+}
+@media print{
+  .sidebar,.btn,input[type=file]{display:none!important}
+  body{background:#fff}
+  .main{margin:0;padding:0}
+  .container{padding:0}
+  table{font-size:11px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="navbar">
-  <div class="logo">STCHEAPJACK</div>
-  <div>
-    <a href="index.html">Dashboard</a>
-    <a href="quotation.html">Quotation</a>
-    <a href="order.html">Order</a>
-    <a href="catalog.html">Catalog</a>
-    <a href="manufacturing.html">Manufacturing</a>
-  </div>
+<div class="app">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="brand">STCHEAPJACK</div>
+  <a href="index.html">Dashboard</a>
+  <a href="quotation.html">Quotation</a>
+  <a href="order.html" class="active">Order Form</a>
+  <a href="catalog.html">Product Catalog</a>
+  <a href="manufacturing.html">Manufacturing Slip</a>
 </div>
 
-<!-- CONTENT -->
+<!-- MAIN -->
+<div class="main">
 <div class="container">
-  <h1>Dashboard</h1>
-  <p>Select an option to continue</p>
 
-  <div class="cards">
-    <div class="card" onclick="location.href='quotation.html'">
-      <h2>Quotation</h2>
-      <p>Create & print quotations for customers</p>
-    </div>
-
-    <div class="card" onclick="location.href='order.html'">
-      <h2>Order Form</h2>
-      <p>Create customer orders with images & pricing</p>
-    </div>
-
-    <div class="card" onclick="location.href='catalog.html'">
-      <h2>Product Catalog</h2>
-      <p>View & manage your product list</p>
-    </div>
-
-    <div class="card" onclick="location.href='manufacturing.html'">
-      <h2>Manufacturing Slip</h2>
-      <p>Generate production instructions</p>
-    </div>
-  </div>
+<div class="header">
+  <h2>ORDER FORM</h2>
+  <div>Order Ref: <input id="orderRef"></div>
 </div>
 
-<div class="footer">
-  © 2026 STCHEAPJACK · Frontend Order System
+<div class="section-title">Customer Details</div>
+<textarea rows="1" placeholder="Customer Name"></textarea>
+<textarea rows="1" placeholder="Designation"></textarea>
+
+<table id="table">
+<tr>
+  <th style="width:40px">S.No</th>
+  <th>Item</th>
+  <th>Pattern</th>
+  <th>Shade</th>
+  <th style="width:50px">Size</th>
+  <th style="width:45px">Qty</th>
+  <th style="width:70px">Price ₹</th>
+  <th style="width:55px">GST %</th>
+  <th style="width:80px">Total ₹</th>
+  <th class="del-col" style="width:45px">Del</th>
+</tr>
+</table>
+
+<button class="btn" onclick="addRow()">+ Add Row</button>
+
+<div class="summary">
+  <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
+  <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
+  <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
 </div>
+
+<div class="section-title">Remarks / Special Instructions</div>
+<textarea rows="3"></textarea>
+
+<div class="section-title">Reference Images</div>
+<div class="image-area">
+
+<div class="img-card">
+  <div class="img-box"><img></div>
+  <input type="file" onchange="loadImg(this)">
+  <div class="img-note" contenteditable>Image note / logo placement</div>
+</div>
+
+<div class="img-card">
+  <div class="img-box"><img></div>
+  <input type="file" onchange="loadImg(this)">
+  <div class="img-note" contenteditable>Image note / logo placement</div>
+</div>
+
+<div class="img-card">
+  <div class="img-box"><img></div>
+  <input type="file" onchange="loadImg(this)">
+  <div class="img-note" contenteditable>Image note / logo placement</div>
+</div>
+
+</div>
+
+<button class="btn" onclick="window.print()">Print / PDF</button>
+
+</div>
+</div>
+</div>
+
+<script>
+/* REF */
+(()=>{orderRef.value="ORD-"+Date.now().toString().slice(-6)})();
+
+/* ADD ROW */
+function addRow(){
+  const r=table.insertRow();
+  r.innerHTML=`
+  <td>${table.rows.length-1}</td>
+  <td contenteditable></td>
+  <td contenteditable></td>
+  <td contenteditable></td>
+  <td contenteditable></td>
+  <td><input type="number" oninput="calc()"></td>
+  <td><input type="number" oninput="calc()"></td>
+  <td><input type="number" value="5" oninput="calc()"></td>
+  <td>0.00</td>
+  <td class="del-col"><button onclick="this.closest('tr').remove();calc()">X</button></td>`;
+}
+
+/* CALC */
+function calc(){
+  let s=0,g=0;
+  [...table.rows].slice(1).forEach(r=>{
+    let q=+r.cells[5].children[0].value||0;
+    let p=+r.cells[6].children[0].value||0;
+    let gst=+r.cells[7].children[0].value||0;
+    let amt=q*p, tax=amt*gst/100;
+    r.cells[8].innerText=(amt+tax).toFixed(2);
+    s+=amt; g+=tax;
+  });
+  sub.innerText=s.toFixed(2);
+  gst.innerText=g.toFixed(2);
+  grand.innerText=(s+g).toFixed(2);
+}
+
+/* IMAGE */
+function loadImg(i){
+  i.previousElementSibling.querySelector("img").src=URL.createObjectURL(i.files[0]);
+}
+
+addRow();
+</script>
 
 </body>
 </html>
-
