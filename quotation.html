@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Quotation</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box}
@@ -44,99 +43,127 @@ body{
 /* ===== MAIN ===== */
 .main{
   margin-left:220px;
-  padding:25px;
+  padding:20px;
   width:100%;
 }
-.container{
-  max-width:1200px;
+
+/* ===== PAGE ===== */
+.page{
+  width:210mm;
+  min-height:297mm;
   margin:auto;
   background:#fff;
-  padding:20px;
+  padding:15mm;
+  border:2px solid #1e73be;
 }
 
 /* ===== HEADER ===== */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-}
-.ref input{
-  border:none;
+.header{text-align:center;color:#1e73be}
+.header h1{margin:0;font-size:26px}
+.header h2{margin:4px 0;font-size:18px}
+.header p{margin:2px 0;font-size:13px}
+
+.hr{border-top:2px solid #1e73be;margin:8px 0}
+
+.subtitle{
+  text-align:center;
   font-weight:bold;
+  color:#1e73be;
+  font-size:16px;
 }
 
-/* ===== SECTION ===== */
-.section-title{
-  font-weight:bold;
-  border-bottom:1px solid #000;
-  margin:14px 0 6px;
+/* ===== META ===== */
+.meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-top:10px;
 }
+
+/* ===== INPUT STYLE ===== */
+input,textarea{
+  border:none;
+  border-bottom:1px dotted #000;
+  font-family:inherit;
+  font-size:13px;
+}
+textarea{width:100%;resize:none}
 
 /* ===== TABLE ===== */
 table{
   width:100%;
   border-collapse:collapse;
-  table-layout:fixed;
-  margin-top:6px;
+  margin-top:12px;
+  font-size:13px;
 }
 th,td{
   border:1px solid #000;
   padding:6px;
-  font-size:12px;
-  vertical-align:top;
-  word-wrap:break-word;
 }
 th{
-  background:#f0f0f0;
+  background:#0b6fb6;
+  color:#fff;
   text-align:center;
 }
-tr{page-break-inside:avoid}
-
-/* ===== INPUTS ===== */
-textarea{
-  width:100%;
-  border:none;
-  resize:none;
-  font-family:inherit;
-  font-size:12px;
-}
-input[type=number]{
-  width:100%;
-  border:none;
+td:nth-child(1),
+td:nth-child(3),
+td:nth-child(4),
+td:nth-child(5){
   text-align:center;
 }
 
-/* ===== BUTTON ===== */
+/* ===== TOTAL ===== */
+.right{text-align:right;font-weight:bold}
+
+/* ===== HIGHLIGHT ===== */
+.highlight{
+  margin:10px 0;
+  padding:6px;
+  background:#fff3a0;
+  font-weight:bold;
+  border:1px solid #000;
+}
+
+/* ===== FOOTER ===== */
+.footer-flex{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  margin-top:12px;
+}
+.terms{font-size:13px}
+.terms ol{padding-left:18px}
+.bank table{
+  width:100%;
+  margin-top:6px;
+  font-size:13px;
+}
+
+/* ===== BUTTONS ===== */
 .btn{
-  padding:6px 12px;
+  padding:6px 14px;
   font-weight:bold;
   margin:6px 4px;
 }
-
-/* ===== TOTALS ===== */
-.summary{
-  width:320px;
-  margin-left:auto;
-}
-.summary div{
-  display:flex;
-  justify-content:space-between;
-}
-.summary h3{
-  border-top:1px solid #000;
-  padding-top:6px;
+.del-btn{
+  color:red;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 /* ===== PRINT ===== */
-@page{
-  size:A4;
-  margin:15mm;
-}
+@page{size:A4;margin:0}
 @media print{
-  .sidebar,.btn{display:none!important}
   body{background:#fff}
+  .sidebar,
+  .btn,
+  .del-btn,
+  .del-col{
+    display:none !important;
+  }
+  input,textarea{border:none}
+  .page{border:none}
   .main{margin:0;padding:0}
-  .container{padding:0}
 }
 </style>
 </head>
@@ -157,82 +184,158 @@ input[type=number]{
 
 <!-- MAIN -->
 <div class="main">
-<div class="container">
+<div class="page">
 
+<!-- HEADER -->
 <div class="header">
-  <h2>QUOTATION</h2>
-  <div class="ref">
-    Quotation Ref:
-    <input id="quoteRef">
-  </div>
+  <h1>S.T. TRADERS ANNEXE</h1>
+  <h2>CHEAP JACK</h2>
+  <p>#1-5-24, Kubera Complex, Sri Krishna Colony, Musheerabad, Hyderabad – 500020</p>
+  <p>E-mail: cheapjacksttraders@gmail.com</p>
 </div>
 
-<div class="section-title">Customer Details</div>
-<textarea rows="1" placeholder="Customer Name"></textarea>
-<textarea rows="1" placeholder="Designation / Company"></textarea>
+<div class="hr"></div>
+<div class="subtitle">MANUFACTURER OF HOSPITAL WEAR AND OT LINEN</div>
+<div class="hr"></div>
 
-<table id="table">
+<!-- META -->
+<div class="meta">
+  <div>Date: <input value="07-02-2026"></div>
+  <div>Ref No: <input value="STM/QUT/1029"></div>
+</div>
+
+<!-- TO -->
+<p style="margin-top:12px">
+<strong>To,</strong><br>
+The Purchase Manager<br>
+<input style="width:60%" value="M/S. GEETHA MULTISPECIALITY HOSPITAL">
+</p>
+
+<p><strong>Sub:</strong> Quotation</p>
+
+<!-- TABLE -->
+<table id="qtable">
 <tr>
-  <th style="width:40px">S.No</th>
-  <th>Description</th>
-  <th style="width:60px">Qty</th>
-  <th style="width:80px">Rate ₹</th>
-  <th style="width:80px">Amount ₹</th>
+  <th style="width:45px">S.NO</th>
+  <th>ITEM</th>
+  <th style="width:80px">RATE</th>
+  <th style="width:70px">QTY</th>
+  <th style="width:90px">TOTAL</th>
+  <th class="del-col" style="width:40px">DEL</th>
 </tr>
 </table>
 
-<button class="btn" onclick="addRow()">+ Add Row</button>
+<button class="btn" onclick="addRow()">+ Add Item</button>
 
-<div class="summary">
-  <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
-  <div>
-    <span>GST %</span>
-    <span>
-      <input type="number" id="gstRate" value="5" style="width:40px;border:1px solid #000" oninput="calc()"> %
-    </span>
-  </div>
-  <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
-  <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
+<table style="margin-top:10px">
+<tr>
+  <td colspan="4" class="right">TAXABLE</td>
+  <td id="taxable">0.00</td>
+</tr>
+<tr>
+  <td colspan="4" class="right">
+    GST %
+    <input id="gstRate" value="5" style="width:30px" oninput="calc()">
+  </td>
+  <td id="gstAmt">0.00</td>
+</tr>
+<tr>
+  <td colspan="4" class="right">TOTAL</td>
+  <td id="grand">0.00</td>
+</tr>
+</table>
+
+<div class="highlight">
+RECEIVED ADVANCE RS.
+<input id="advance" value="0" style="width:80px" oninput="calc()"> /-
+&nbsp;&nbsp; DUE
+<input id="due" value="0" style="width:80px" readonly>
 </div>
 
-<div class="section-title">Terms / Notes</div>
-<textarea rows="3" placeholder="Validity, delivery timeline, terms & conditions"></textarea>
+<!-- FOOTER -->
+<div class="footer-flex">
 
-<button class="btn" onclick="window.print()">Print / PDF</button>
+<div class="terms">
+<strong>TERMS & CONDITIONS</strong>
+<ol>
+  <li>5% GST as per Government Norms.</li>
+  <li>Material Delivery Within 10 Days from Received Purchase Order.</li>
+  <li>100% Advance.</li>
+  <li>Delivery Charges to be Borne by Customer.</li>
+  <li>Transportation Charges Extra for Other States.</li>
+</ol>
+
+<strong>BANK DETAILS</strong>
+<table>
+<tr><td>NAME</td><td>S T TRADERS ANNEXE</td></tr>
+<tr><td>ACCOUNT NUMBER</td><td>925020001539370</td></tr>
+<tr><td>IFSC CODE</td><td>UTIB0001319</td></tr>
+</table>
+</div>
+
+<div style="text-align:center;font-size:12px">
+<strong>UPI CODE</strong><br><br>
+<div style="width:120px;height:120px;border:1px solid #000;
+display:flex;align-items:center;justify-content:center">
+QR
+</div>
+</div>
+
+</div>
+
+<p style="text-align:right;margin-top:30px;font-size:13px">
+<strong>S.T. TRADERS ANNEXE CHEAP JACK</strong>
+</p>
+
+<button class="btn" onclick="window.print()">Print / Save PDF</button>
 
 </div>
 </div>
 </div>
 
 <script>
-/* QUOTE REF */
-(()=>{quoteRef.value="QT-"+Date.now().toString().slice(-6)})();
-
-/* ADD ROW */
 function addRow(){
-  const r=table.insertRow();
+  const t=document.getElementById("qtable");
+  const r=t.insertRow();
   r.innerHTML=`
-  <td>${table.rows.length-1}</td>
-  <td contenteditable></td>
-  <td><input type="number" oninput="calc()"></td>
-  <td><input type="number" oninput="calc()"></td>
-  <td>0.00</td>`;
+    <td></td>
+    <td><input style="width:100%"></td>
+    <td><input type="number" oninput="calc()"></td>
+    <td><input type="number" oninput="calc()"></td>
+    <td>0.00</td>
+    <td class="del-col">
+      <span class="del-btn" onclick="removeRow(this)">X</span>
+    </td>
+  `;
+  renumber();
 }
 
-/* CALC */
-function calc(){
-  let subtotal=0;
-  [...table.rows].slice(1).forEach(r=>{
-    let q=+r.cells[2].children[0].value||0;
-    let p=+r.cells[3].children[0].value||0;
-    let amt=q*p;
-    r.cells[4].innerText=amt.toFixed(2);
-    subtotal+=amt;
+function removeRow(el){
+  el.closest("tr").remove();
+  renumber();
+  calc();
+}
+
+function renumber(){
+  [...qtable.rows].slice(1).forEach((r,i)=>{
+    r.cells[0].innerText=i+1;
   });
-  let gstAmt=subtotal*(+gstRate.value||0)/100;
-  sub.innerText=subtotal.toFixed(2);
-  gst.innerText=gstAmt.toFixed(2);
-  grand.innerText=(subtotal+gstAmt).toFixed(2);
+}
+
+function calc(){
+  let total=0;
+  [...qtable.rows].slice(1).forEach(r=>{
+    let rate=+r.cells[2].children[0].value||0;
+    let qty=+r.cells[3].children[0].value||0;
+    let amt=rate*qty;
+    r.cells[4].innerText=amt.toFixed(2);
+    total+=amt;
+  });
+  taxable.innerText=total.toFixed(2);
+  let gst=total*(+gstRate.value||0)/100;
+  gstAmt.innerText=gst.toFixed(2);
+  grand.innerText=(total+gst).toFixed(2);
+  due.value=(total+gst-(+advance.value||0)).toFixed(2);
 }
 
 addRow();
