@@ -3,14 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <title>Order Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box}
 
 body{
-  font-family: Arial, sans-serif;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f6fb;
+}
+
+/* ===== LAYOUT ===== */
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:220px;
+  background:#1f2937;
+  color:#fff;
+  padding:20px 0;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:0;
+}
+
+.brand{
+  font-size:18px;
+  font-weight:bold;
+  padding:0 20px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.15);
+}
+
+.sidebar a{
+  display:block;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+  background:#374151;
+}
+
+/* ===== MAIN ===== */
+.main{
+  margin-left:220px;
+  padding:25px;
+  width:100%;
   background:#f5f7fb;
-  padding:20px;
 }
 
 .container{
@@ -30,13 +77,11 @@ body{
 
 .order-ref{
   font-weight:bold;
-  font-size:14px;
 }
 
 .order-ref input{
   border:none;
   font-weight:bold;
-  font-size:14px;
   width:180px;
 }
 
@@ -147,7 +192,6 @@ input[type=number]{
   width:100%;
   height:100%;
   object-fit:contain;
-  display:block;
 }
 
 /* ===== PRINT ===== */
@@ -157,6 +201,7 @@ input[type=number]{
 }
 
 @media print{
+  .sidebar,
   .btn,
   input[type=file],
   .del-col,
@@ -164,105 +209,113 @@ input[type=number]{
     display:none !important;
   }
 
-  body{background:#fff;padding:0}
+  body{background:#fff}
+  .main{margin:0;padding:0}
   .container{padding:0}
-
-  /* ✅ FORCE IMAGE TO PRINT */
-  img{
-    display:block !important;
-    max-width:100% !important;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-<!-- HEADER -->
-<div class="header">
-  <div></div>
-  <div class="order-ref">
-    Order Ref :
-    <input type="text" id="orderRef">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="brand">STCHEAPJACK</div>
+    <a href="index.html">Dashboard</a>
+    <a href="quotation.html">Quotation</a>
+    <a href="order.html" class="active">Order Form</a>
+    <a href="catalog.html">Product Catalog</a>
+    <a href="manufacturing.html">Manufacturing Slip</a>
   </div>
-</div>
 
-<!-- CUSTOMER DETAILS -->
-<div class="section-title">Customer Details</div>
-<textarea rows="1" placeholder="Customer Name"></textarea>
-<textarea rows="1" placeholder="Designation"></textarea>
+  <!-- MAIN -->
+  <div class="main">
+    <div class="container">
 
-<!-- TABLE -->
-<table id="table">
-<tr>
-  <th style="width:50px">S.No<div class="resizer"></div></th>
-  <th>Item<div class="resizer"></div></th>
-  <th>Pattern<div class="resizer"></div></th>
-  <th>Shade<div class="resizer"></div></th>
-  <th style="width:70px">Size</th>
-  <th style="width:60px">Qty</th>
-  <th style="width:90px">Price ₹</th>
-  <th style="width:70px">GST %</th>
-  <th style="width:100px">Total ₹</th>
-  <th class="del-col" style="width:60px">Del</th>
-</tr>
-</table>
+      <!-- HEADER -->
+      <div class="header">
+        <h2>ORDER FORM</h2>
+        <div class="order-ref">
+          Order Ref:
+          <input type="text" id="orderRef">
+        </div>
+      </div>
 
-<button class="btn" onclick="addRow()">+ Add Row</button>
+      <!-- CUSTOMER -->
+      <div class="section-title">Customer Details</div>
+      <textarea rows="1" placeholder="Customer Name"></textarea>
+      <textarea rows="1" placeholder="Designation"></textarea>
 
-<!-- TOTALS -->
-<div class="summary">
-  <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
-  <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
-  <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
-</div>
+      <!-- TABLE -->
+      <table id="table">
+        <tr>
+          <th style="width:50px">S.No<div class="resizer"></div></th>
+          <th>Item<div class="resizer"></div></th>
+          <th>Pattern<div class="resizer"></div></th>
+          <th>Shade<div class="resizer"></div></th>
+          <th style="width:70px">Size</th>
+          <th style="width:60px">Qty</th>
+          <th style="width:90px">Price ₹</th>
+          <th style="width:70px">GST %</th>
+          <th style="width:100px">Total ₹</th>
+          <th class="del-col" style="width:60px">Del</th>
+        </tr>
+      </table>
 
-<!-- REMARKS -->
-<div class="section-title">Remarks / Special Instructions</div>
-<textarea rows="3"></textarea>
+      <button class="btn" onclick="addRow()">+ Add Row</button>
 
-<!-- IMAGES -->
-<div class="section-title">Reference Images</div>
-<div class="image-area">
-  <div>
-    <div class="img-box"><img></div>
-    <input type="file" accept="image/*" onchange="loadImg(this)">
+      <!-- TOTALS -->
+      <div class="summary">
+        <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
+        <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
+        <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
+      </div>
+
+      <!-- REMARKS -->
+      <div class="section-title">Remarks / Special Instructions</div>
+      <textarea rows="3"></textarea>
+
+      <!-- IMAGES -->
+      <div class="section-title">Reference Images</div>
+      <div class="image-area">
+        <div>
+          <div class="img-box"><img></div>
+          <input type="file" accept="image/*" onchange="loadImg(this)">
+        </div>
+        <div>
+          <div class="img-box"><img></div>
+          <input type="file" accept="image/*" onchange="loadImg(this)">
+        </div>
+        <div>
+          <div class="img-box"><img></div>
+          <input type="file" accept="image/*" onchange="loadImg(this)">
+        </div>
+      </div>
+
+      <button class="btn" onclick="window.print()">Print / PDF</button>
+
+    </div>
   </div>
-  <div>
-    <div class="img-box"><img></div>
-    <input type="file" accept="image/*" onchange="loadImg(this)">
-  </div>
-  <div>
-    <div class="img-box"><img></div>
-    <input type="file" accept="image/*" onchange="loadImg(this)">
-  </div>
-</div>
-
-<button class="btn" onclick="window.print()">Print / PDF</button>
 
 </div>
 
 <script>
-/* ===== ORDER REF ===== */
-(function(){
+/* ORDER REF */
+(()=>{
   const d=new Date();
-  const ref="ORD-"+d.getFullYear()
+  orderRef.value="ORD-"+d.getFullYear()
     +String(d.getMonth()+1).padStart(2,"0")
     +String(d.getDate()).padStart(2,"0")
     +"-"+Math.floor(100+Math.random()*900);
-  document.getElementById("orderRef").value=ref;
 })();
 
-/* ===== ADD ROW ===== */
+/* ADD ROW */
 function addRow(){
-  const t=document.getElementById("table");
-  const r=t.insertRow();
-  const i=t.rows.length-1;
-
+  const r=table.insertRow();
   r.innerHTML=`
-    <td>${i}</td>
+    <td>${table.rows.length-1}</td>
     <td contenteditable class="wrap"></td>
     <td contenteditable class="wrap"></td>
     <td contenteditable class="wrap"></td>
@@ -271,66 +324,41 @@ function addRow(){
     <td><input type="number" oninput="calc()"></td>
     <td><input type="number" value="5" oninput="calc()"></td>
     <td>0.00</td>
-    <td class="del-col"><button onclick="delRow(this)">X</button></td>
+    <td class="del-col"><button onclick="this.closest('tr').remove();calc()">X</button></td>
   `;
 }
 
-/* ===== DELETE ===== */
-function delRow(btn){
-  btn.closest("tr").remove();
-  renumber();
-  calc();
-}
-
-function renumber(){
-  [...table.rows].forEach((r,i)=>{
-    if(i>0) r.cells[0].innerText=i;
-  });
-}
-
-/* ===== CALC ===== */
+/* CALC */
 function calc(){
-  const rows=[...table.rows].slice(1);
-  let subTotal=0,gstTotal=0;
-
-  rows.forEach(r=>{
-    const q=Number(r.cells[5].children[0].value)||0;
-    const p=Number(r.cells[6].children[0].value)||0;
-    const g=Number(r.cells[7].children[0].value)||0;
-
-    const amt=q*p;
-    const tax=amt*g/100;
-
+  let subT=0, gstT=0;
+  [...table.rows].slice(1).forEach(r=>{
+    const q=+r.cells[5].children[0].value||0;
+    const p=+r.cells[6].children[0].value||0;
+    const g=+r.cells[7].children[0].value||0;
+    const amt=q*p, tax=amt*g/100;
     r.cells[8].innerText=(amt+tax).toFixed(2);
-    subTotal+=amt;
-    gstTotal+=tax;
+    subT+=amt; gstT+=tax;
   });
-
-  sub.innerText=subTotal.toFixed(2);
-  gst.innerText=gstTotal.toFixed(2);
-  grand.innerText=(subTotal+gstTotal).toFixed(2);
+  sub.innerText=subT.toFixed(2);
+  gst.innerText=gstT.toFixed(2);
+  grand.innerText=(subT+gstT).toFixed(2);
 }
 
-/* ===== IMAGE LOAD (FINAL FIX) ===== */
+/* IMAGE */
 function loadImg(input){
-  if(!input.files || !input.files[0]) return;
   const img=input.previousElementSibling.querySelector("img");
   img.src=URL.createObjectURL(input.files[0]);
-  img.onload=()=>URL.revokeObjectURL(img.src);
 }
 
-/* ===== RESIZE ===== */
-document.querySelectorAll(".resizer").forEach(resizer=>{
-  const th=resizer.parentElement;
-  let startX,startWidth;
-  resizer.addEventListener("mousedown",e=>{
-    startX=e.pageX;
-    startWidth=th.offsetWidth;
-    document.onmousemove=ev=>{
-      th.style.width=startWidth+(ev.pageX-startX)+"px";
-    };
+/* RESIZE */
+document.querySelectorAll(".resizer").forEach(r=>{
+  const th=r.parentElement;
+  let sx, sw;
+  r.onmousedown=e=>{
+    sx=e.pageX; sw=th.offsetWidth;
+    document.onmousemove=ev=>th.style.width=sw+(ev.pageX-sx)+"px";
     document.onmouseup=()=>document.onmousemove=null;
-  });
+  };
 });
 
 addRow();
@@ -338,4 +366,3 @@ addRow();
 
 </body>
 </html>
-
