@@ -15,10 +15,7 @@ body{
 }
 
 /* ===== LAYOUT ===== */
-.app{
-  display:flex;
-  min-height:100vh;
-}
+.app{display:flex;min-height:100vh}
 
 /* ===== SIDEBAR ===== */
 .sidebar{
@@ -27,18 +24,14 @@ body{
   color:#fff;
   padding:20px 0;
   position:fixed;
-  top:0;
-  bottom:0;
-  left:0;
+  top:0;bottom:0;left:0;
 }
-
 .brand{
   font-size:18px;
   font-weight:bold;
   padding:0 20px 20px;
   border-bottom:1px solid rgba(255,255,255,0.15);
 }
-
 .sidebar a{
   display:block;
   padding:12px 20px;
@@ -46,11 +39,8 @@ body{
   text-decoration:none;
   font-size:14px;
 }
-
 .sidebar a:hover,
-.sidebar a.active{
-  background:#374151;
-}
+.sidebar a.active{background:#374151}
 
 /* ===== MAIN ===== */
 .main{
@@ -59,7 +49,6 @@ body{
   width:100%;
   background:#f5f7fb;
 }
-
 .container{
   max-width:1400px;
   margin:auto;
@@ -74,16 +63,16 @@ body{
   align-items:flex-end;
   margin-bottom:10px;
 }
-
 .order-ref{
   font-weight:bold;
+  font-size:13px;
 }
-
 .order-ref input{
   border:none;
   font-weight:bold;
-  width:180px;
+  width:160px;
 }
+.order-date{font-size:13px}
 
 /* ===== SECTION ===== */
 .section-title{
@@ -98,16 +87,12 @@ table{
   border-collapse:collapse;
   table-layout:fixed;
 }
-
-th, td{
+th,td{
   border:1px solid #000;
   padding:8px;
   font-size:13px;
   vertical-align:top;
-  line-height:1.4;
-  position:relative;
 }
-
 th{
   background:#f0f0f0;
   text-align:center;
@@ -119,16 +104,6 @@ th{
   overflow-wrap:break-word;
 }
 
-/* ===== RESIZER ===== */
-.resizer{
-  position:absolute;
-  right:0;
-  top:0;
-  width:6px;
-  height:100%;
-  cursor:col-resize;
-}
-
 /* ===== INPUTS ===== */
 textarea{
   width:100%;
@@ -136,7 +111,6 @@ textarea{
   resize:none;
   font-family:inherit;
 }
-
 input[type=number]{
   width:100%;
   border:none;
@@ -156,13 +130,11 @@ input[type=number]{
   margin-left:auto;
   margin-top:8px;
 }
-
 .summary div{
   display:flex;
   justify-content:space-between;
   margin-bottom:4px;
 }
-
 .summary h3{
   border-top:1px solid #000;
   padding-top:6px;
@@ -175,53 +147,45 @@ input[type=number]{
   margin-top:10px;
   flex-wrap:wrap;
 }
-
+.image-block{
+  width:140px;
+}
 .img-box{
-  width:120px;
-  height:120px;
+  width:140px;
+  height:140px;
   border:1px solid #000;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
 }
-
 .img-box img{
   width:100%;
   height:100%;
   object-fit:contain;
 }
+.img-text{
+  border:1px solid #000;
+  margin-top:4px;
+  padding:4px;
+  font-size:12px;
+}
 
 /* ===== PRINT ===== */
-@page{
-  size:A4;
-  margin:18mm 15mm;
-}
+@page{size:A4;margin:18mm 15mm}
 
 @media print{
   .sidebar,
   .btn,
   input[type=file],
-  .del-col,
-  .resizer{
+  .del-col{
     display:none !important;
   }
-
   body{background:#fff}
   .main{margin:0;padding:0}
   .container{padding:0}
-
-  table{
-    margin-top:12mm;
-  }
-
-  thead{
-    display:table-header-group;
-  }
-
-  tr{
-    page-break-inside:avoid;
-  }
+  thead{display:table-header-group}
+  tr{page-break-inside:avoid}
 }
 </style>
 </head>
@@ -246,9 +210,9 @@ input[type=number]{
 
 <div class="header">
   <h2>ORDER FORM</h2>
-  <div class="order-ref">
-    Order Ref:
-    <input type="text" id="orderRef">
+  <div>
+    <div class="order-ref">Order Ref: <input id="orderRef"></div>
+    <div class="order-date">Date: <span id="orderDate"></span></div>
   </div>
 </div>
 
@@ -259,10 +223,10 @@ input[type=number]{
 <table id="table">
 <thead>
 <tr>
-  <th style="width:50px">S.No<div class="resizer"></div></th>
-  <th>Item<div class="resizer"></div></th>
-  <th>Pattern<div class="resizer"></div></th>
-  <th>Shade<div class="resizer"></div></th>
+  <th style="width:50px">S.No</th>
+  <th>Item</th>
+  <th>Pattern</th>
+  <th>Shade</th>
   <th style="width:70px">Size</th>
   <th style="width:60px">Qty</th>
   <th style="width:90px">Price ₹</th>
@@ -277,6 +241,7 @@ input[type=number]{
 <button class="btn" onclick="addRow()">+ Add Row</button>
 
 <div class="summary">
+  <div><span>Total Qty</span><span id="totalQty">0</span></div>
   <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
   <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
   <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
@@ -287,9 +252,25 @@ input[type=number]{
 
 <div class="section-title">Reference Images</div>
 <div class="image-area">
-  <div><div class="img-box"><img></div><input type="file" onchange="loadImg(this)"></div>
-  <div><div class="img-box"><img></div><input type="file" onchange="loadImg(this)"></div>
-  <div><div class="img-box"><img></div><input type="file" onchange="loadImg(this)"></div>  
+
+  <div class="image-block">
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+    <textarea class="img-text" rows="2" placeholder="Logo position / notes"></textarea>
+  </div>
+
+  <div class="image-block">
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+    <textarea class="img-text" rows="2" placeholder="Color / pattern notes"></textarea>
+  </div>
+
+  <div class="image-block">
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+    <textarea class="img-text" rows="2" placeholder="Other reference notes"></textarea>
+  </div>
+
 </div>
 
 <button class="btn" onclick="window.print()">Print / PDF</button>
@@ -302,9 +283,10 @@ input[type=number]{
 (()=>{
   const d=new Date();
   orderRef.value="ORD-"+d.getFullYear()
-  +String(d.getMonth()+1).padStart(2,"0")
-  +String(d.getDate()).padStart(2,"0")
-  +"-"+Math.floor(100+Math.random()*900);
+    +String(d.getMonth()+1).padStart(2,"0")
+    +String(d.getDate()).padStart(2,"0")
+    +"-"+Math.floor(100+Math.random()*900);
+  orderDate.innerText=d.toLocaleDateString("en-GB");
 })();
 
 function addRow(){
@@ -325,33 +307,25 @@ function addRow(){
 }
 
 function calc(){
-  let s=0,g=0;
+  let s=0,g=0,q=0;
   [...document.querySelector("#table tbody").rows].forEach(r=>{
-    let q=+r.cells[5].children[0].value||0;
-    let p=+r.cells[6].children[0].value||0;
+    let qty=+r.cells[5].children[0].value||0;
+    let price=+r.cells[6].children[0].value||0;
     let gst=+r.cells[7].children[0].value||0;
-    let amt=q*p, tax=amt*gst/100;
+    let amt=qty*price, tax=amt*gst/100;
     r.cells[8].innerText=(amt+tax).toFixed(2);
-    s+=amt; g+=tax;
+    s+=amt; g+=tax; q+=qty;
   });
+  totalQty.innerText=q;
   sub.innerText=s.toFixed(2);
   gst.innerText=g.toFixed(2);
   grand.innerText=(s+g).toFixed(2);
 }
 
 function loadImg(i){
-  i.previousElementSibling.querySelector("img").src=URL.createObjectURL(i.files[0]);
+  i.previousElementSibling.querySelector("img").src=
+    URL.createObjectURL(i.files[0]);
 }
-
-document.querySelectorAll(".resizer").forEach(r=>{
-  const th=r.parentElement;
-  let x,w;
-  r.onmousedown=e=>{
-    x=e.pageX; w=th.offsetWidth;
-    document.onmousemove=ev=>th.style.width=w+(ev.pageX-x)+"px";
-    document.onmouseup=()=>document.onmousemove=null;
-  };
-});
 
 addRow();
 </script>
