@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Products</title>
+<title>STCHEAPJACK Products</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<!-- SUPABASE SDK (V2 – ONLY ONCE) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 body{font-family:Arial;margin:20px;background:#f5f7fa}
 h2{margin-top:0}
 
-#loginBox,input,textarea,select,button{
-  margin:5px 0;padding:8px;width:100%;max-width:400px
+#loginBox,input,textarea,button{
+  margin:6px 0;padding:8px;width:100%;max-width:420px
 }
 
 .product{
@@ -23,10 +24,7 @@ h2{margin-top:0}
   box-shadow:0 0 5px rgba(0,0,0,.1)
 }
 
-.product img{
-  max-width:120px;
-  margin-right:10px;
-}
+.product img{max-width:120px;margin-right:8px}
 
 .adminOnly{display:none}
 .admin .adminOnly{display:block}
@@ -47,7 +45,7 @@ h2{margin-top:0}
   <button onclick="login()">Login</button>
 </div>
 
-<button id="logoutBtn" class="adminOnly" onclick="logout()">Logout</button>
+<button class="adminOnly" onclick="logout()">Logout</button>
 
 <!-- ADD PRODUCT -->
 <div class="adminOnly">
@@ -70,28 +68,35 @@ h2{margin-top:0}
 <div id="products"></div>
 
 <script>
-const supabase = supabase.createClient(
+/* CREATE SUPABASE CLIENT (DO NOT NAME IT supabase) */
+const sb = window.supabase.createClient(
   "https://dkvpsetixqwfnstwveku.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrdnBzZXRpeHF3Zm5zdHd2ZWt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2MzA3NTYsImV4cCI6MjA4NjIwNjc1Nn0.DdS-O6jffss4IeMlfN7QydeBEKeZAl9YIgIRdw1Rd-A"
 );
 
-// ---------- AUTH ----------
+/* ---------- AUTH ---------- */
 async function login(){
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if(error) alert(error.message);
-  else location.reload();
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+
+  if(error){
+    alert("Login failed: " + error.message);
+    console.error(error);
+  }else{
+    alert("Login successful");
+    location.reload();
+  }
 }
 
 async function logout(){
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   location.reload();
 }
 
 async function checkAdmin(){
-  const { data } = await supabase.auth.getUser();
+  const { data } = await sb.auth.getUser();
   if(data.user){
     document.body.classList.add("admin");
     document.getElementById("loginBox").style.display="none";
@@ -99,19 +104,20 @@ async function checkAdmin(){
 }
 checkAdmin();
 
-// ---------- LOAD PRODUCTS ----------
+/* ---------- LOAD PRODUCTS ---------- */
 async function loadProducts(){
-  const { data } = await supabase.from("products").select("*").order("created_at",{ascending:false});
+  const { data } = await sb.from("products")
+    .select("*")
+    .order("created_at",{ascending:false});
+
   const box = document.getElementById("products");
-  box.innerHTML = "";
+  box.innerHTML="";
 
-  data.forEach(p=>{
+  (data||[]).forEach(p=>{
     let imgs="";
-    (p.images||[]).forEach(i=>{
-      imgs+=`<img src="${i}">`;
-    });
+    (p.images||[]).forEach(i=> imgs+=`<img src="${i}">`);
 
-    box.innerHTML += `
+    box.innerHTML+=`
       <div class="product">
         <div class="flex">${imgs}</div>
         <h4>${p.product_name}</h4>
@@ -119,25 +125,24 @@ async function loadProducts(){
         <p>${p.fabric} | ${p.color} | ${p.sizes}</p>
         <p>${p.description||""}</p>
         <button class="adminOnly" onclick="delProduct('${p.id}')">Delete</button>
-      </div>
-    `;
+      </div>`;
   });
 }
 loadProducts();
 
-// ---------- ADD PRODUCT ----------
+/* ---------- ADD PRODUCT ---------- */
 async function addProduct(){
   const files = document.getElementById("images").files;
   let urls=[];
 
   for(let f of files){
     const path = Date.now()+"_"+f.name;
-    await supabase.storage.from("product-images").upload(path,f);
-    const { data } = supabase.storage.from("product-images").getPublicUrl(path);
+    await sb.storage.from("product-images").upload(path,f);
+    const { data } = sb.storage.from("product-images").getPublicUrl(path);
     urls.push(data.publicUrl);
   }
 
-  await supabase.from("products").insert([{
+  await sb.from("products").insert([{
     product_name:pname.value,
     category:category.value,
     sku:sku.value,
@@ -153,10 +158,10 @@ async function addProduct(){
   location.reload();
 }
 
-// ---------- DELETE ----------
+/* ---------- DELETE ---------- */
 async function delProduct(id){
   if(confirm("Delete product?")){
-    await supabase.from("products").delete().eq("id",id);
+    await sb.from("products").delete().eq("id",id);
     location.reload();
   }
 }
@@ -164,6 +169,3 @@ async function delProduct(id){
 
 </body>
 </html>
-
-
-
