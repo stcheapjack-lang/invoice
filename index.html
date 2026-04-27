@@ -2,169 +2,332 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>STCHEAPJACK Products</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- SUPABASE SDK (V2 – ONLY ONCE) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Order Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{font-family:Arial;margin:20px;background:#f5f7fa}
-h2{margin-top:0}
+*{box-sizing:border-box}
 
-#loginBox,input,textarea,button{
-  margin:6px 0;padding:8px;width:100%;max-width:420px
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f6fb;
 }
 
-.product{
+/* ===== LAYOUT ===== */
+.app{display:flex;min-height:100vh}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  width:220px;
+  background:#1f2937;
+  color:#fff;
+  padding:20px 0;
+  position:fixed;
+  top:0;bottom:0;left:0;
+}
+.brand{
+  font-size:18px;
+  font-weight:bold;
+  padding:0 20px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.15);
+}
+.sidebar a{
+  display:block;
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+  font-size:14px;
+}
+.sidebar a:hover,
+.sidebar a.active{background:#374151}
+
+/* ===== MAIN ===== */
+.main{
+  margin-left:220px;
+  padding:25px;
+  width:100%;
+  background:#f5f7fb;
+}
+.container{
+  max-width:1400px;
+  margin:auto;
   background:#fff;
-  padding:15px;
-  margin:10px 0;
-  border-radius:6px;
-  box-shadow:0 0 5px rgba(0,0,0,.1)
+  padding:20px;
 }
 
-.product img{max-width:120px;margin-right:8px}
+/* ===== HEADER ===== */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:10px;
+}
+.order-ref{
+  font-weight:bold;
+  font-size:13px;
+}
+.order-ref input{
+  border:none;
+  font-weight:bold;
+  width:160px;
+}
+.order-date{font-size:13px}
 
-.adminOnly{display:none}
-.admin .adminOnly{display:block}
+/* ===== SECTION ===== */
+.section-title{
+  font-weight:bold;
+  border-bottom:1px solid #000;
+  margin:12px 0 6px;
+}
 
-.flex{display:flex;flex-wrap:wrap}
+/* ===== TABLE ===== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+th,td{
+  border:1px solid #000;
+  padding:8px;
+  font-size:13px;
+  vertical-align:top;
+}
+th{
+  background:#f0f0f0;
+  text-align:center;
+}
+
+/* ===== TEXT ===== */
+.wrap{
+  white-space:normal;
+  overflow-wrap:break-word;
+}
+
+/* ===== INPUTS ===== */
+textarea{
+  width:100%;
+  border:none;
+  resize:none;
+  font-family:inherit;
+}
+input[type=number]{
+  width:100%;
+  border:none;
+  text-align:center;
+}
+
+/* ===== BUTTON ===== */
+.btn{
+  padding:6px 12px;
+  font-weight:bold;
+  margin:6px 4px;
+}
+
+/* ===== TOTALS ===== */
+.summary{
+  width:360px;
+  margin-left:auto;
+  margin-top:8px;
+}
+.summary div{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:4px;
+}
+.summary h3{
+  border-top:1px solid #000;
+  padding-top:6px;
+}
+
+/* ===== IMAGE AREA ===== */
+.image-area{
+  display:flex;
+  gap:20px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.image-block{
+  width:140px;
+}
+.img-box{
+  width:140px;
+  height:140px;
+  border:1px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.img-box img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.img-text{
+  border:1px solid #000;
+  margin-top:4px;
+  padding:4px;
+  font-size:12px;
+}
+
+/* ===== PRINT ===== */
+@page{size:A4;margin:18mm 15mm}
+
+@media print{
+  .sidebar,
+  .btn,
+  input[type=file],
+  .del-col{
+    display:none !important;
+  }
+  body{background:#fff}
+  .main{margin:0;padding:0}
+  .container{padding:0}
+  thead{display:table-header-group}
+  tr{page-break-inside:avoid}
+}
 </style>
 </head>
 
 <body>
 
-<h2>STCHEAPJACK</h2>
+<div class="app">
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <h3>Admin Login</h3>
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-  <button onclick="login()">Login</button>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="brand">STCHEAPJACK</div>
+  <a href="index.html">Dashboard</a>
+  <a href="quotation.html">Quotation</a>
+  <a href="order.html" class="active">Order Form</a>
+  <a href="catalog.html">Product Catalog</a>
+  <a href="manufacturing.html">Manufacturing Slip</a>
 </div>
 
-<button class="adminOnly" onclick="logout()">Logout</button>
+<!-- MAIN -->
+<div class="main">
+<div class="container">
 
-<!-- ADD PRODUCT -->
-<div class="adminOnly">
-  <h3>Add Product</h3>
-  <input id="pname" placeholder="Product Name">
-  <input id="category" placeholder="Category">
-  <input id="sku" placeholder="SKU">
-  <input id="price" placeholder="Price">
-  <input id="fabric" placeholder="Fabric">
-  <input id="color" placeholder="Color">
-  <input id="sizes" placeholder="Sizes (S,M,L)">
-  <textarea id="desc" placeholder="Description"></textarea>
-  <input id="images" type="file" multiple>
-  <button onclick="addProduct()">Save Product</button>
+<div class="header">
+  <h2>ORDER FORM</h2>
+  <div>
+    <div class="order-ref">Order Ref: <input id="orderRef"></div>
+    <div class="order-date">Date: <span id="orderDate"></span></div>
+  </div>
 </div>
 
-<hr>
+<div class="section-title">Customer Details</div>
+<textarea rows="1" placeholder="Customer Name"></textarea>
+<textarea rows="1" placeholder="Designation"></textarea>
 
-<!-- PRODUCTS -->
-<div id="products"></div>
+<table id="table">
+<thead>
+<tr>
+  <th style="width:50px">S.No</th>
+  <th>Item</th>
+  <th>Pattern</th>
+  <th>Shade</th>
+  <th style="width:70px">Size</th>
+  <th style="width:60px">Qty</th>
+  <th style="width:90px">Price ₹</th>
+  <th style="width:70px">GST %</th>
+  <th style="width:100px">Total ₹</th>
+  <th class="del-col" style="width:60px">Del</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<button class="btn" onclick="addRow()">+ Add Row</button>
+
+<div class="summary">
+  <div><span>Total Qty</span><span id="totalQty">0</span></div>
+  <div><span>Subtotal</span><span>₹ <span id="sub">0.00</span></span></div>
+  <div><span>GST</span><span>₹ <span id="gst">0.00</span></span></div>
+  <h3>Grand Total ₹ <span id="grand">0.00</span></h3>
+</div>
+
+<div class="section-title">Remarks / Special Instructions</div>
+<textarea rows="3"></textarea>
+
+<div class="section-title">Reference Images</div>
+<div class="image-area">
+
+  <div class="image-block">
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+    <textarea class="img-text" rows="2" placeholder="Logo position / notes"></textarea>
+  </div>
+
+  <div class="image-block">
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+    <textarea class="img-text" rows="2" placeholder="Color / pattern notes"></textarea>
+  </div>
+
+  <div class="image-block">
+    <div class="img-box"><img></div>
+    <input type="file" accept="image/*" onchange="loadImg(this)">
+    <textarea class="img-text" rows="2" placeholder="Other reference notes"></textarea>
+  </div>
+
+</div>
+
+<button class="btn" onclick="window.print()">Print / PDF</button>
+
+</div>
+</div>
+</div>
 
 <script>
-/* CREATE SUPABASE CLIENT (DO NOT NAME IT supabase) */
-const sb = window.supabase.createClient(
-  "https://dkvpsetixqwfnstwveku.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRrdnBzZXRpeHF3Zm5zdHd2ZWt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2MzA3NTYsImV4cCI6MjA4NjIwNjc1Nn0.DdS-O6jffss4IeMlfN7QydeBEKeZAl9YIgIRdw1Rd-A"
-);
+(()=>{
+  const d=new Date();
+  orderRef.value="ORD-"+d.getFullYear()
+    +String(d.getMonth()+1).padStart(2,"0")
+    +String(d.getDate()).padStart(2,"0")
+    +"-"+Math.floor(100+Math.random()*900);
+  orderDate.innerText=d.toLocaleDateString("en-GB");
+})();
 
-/* ---------- AUTH ---------- */
-async function login(){
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  const { error } = await sb.auth.signInWithPassword({ email, password });
-
-  if(error){
-    alert("Login failed: " + error.message);
-    console.error(error);
-  }else{
-    alert("Login successful");
-    location.reload();
-  }
+function addRow(){
+  const tb=document.querySelector("#table tbody");
+  const r=tb.insertRow();
+  r.innerHTML=`
+    <td>${tb.rows.length}</td>
+    <td contenteditable class="wrap"></td>
+    <td contenteditable class="wrap"></td>
+    <td contenteditable class="wrap"></td>
+    <td contenteditable class="wrap"></td>
+    <td><input type="number" oninput="calc()"></td>
+    <td><input type="number" oninput="calc()"></td>
+    <td><input type="number" value="5" oninput="calc()"></td>
+    <td>0.00</td>
+    <td class="del-col"><button onclick="this.closest('tr').remove();calc()">X</button></td>
+  `;
 }
 
-async function logout(){
-  await sb.auth.signOut();
-  location.reload();
-}
-
-async function checkAdmin(){
-  const { data } = await sb.auth.getUser();
-  if(data.user){
-    document.body.classList.add("admin");
-    document.getElementById("loginBox").style.display="none";
-  }
-}
-checkAdmin();
-
-/* ---------- LOAD PRODUCTS ---------- */
-async function loadProducts(){
-  const { data } = await sb.from("products")
-    .select("*")
-    .order("created_at",{ascending:false});
-
-  const box = document.getElementById("products");
-  box.innerHTML="";
-
-  (data||[]).forEach(p=>{
-    let imgs="";
-    (p.images||[]).forEach(i=> imgs+=`<img src="${i}">`);
-
-    box.innerHTML+=`
-      <div class="product">
-        <div class="flex">${imgs}</div>
-        <h4>${p.product_name}</h4>
-        <p>${p.category} | ₹${p.price}</p>
-        <p>${p.fabric} | ${p.color} | ${p.sizes}</p>
-        <p>${p.description||""}</p>
-        <button class="adminOnly" onclick="delProduct('${p.id}')">Delete</button>
-      </div>`;
+function calc(){
+  let s=0,g=0,q=0;
+  [...document.querySelector("#table tbody").rows].forEach(r=>{
+    let qty=+r.cells[5].children[0].value||0;
+    let price=+r.cells[6].children[0].value||0;
+    let gst=+r.cells[7].children[0].value||0;
+    let amt=qty*price, tax=amt*gst/100;
+    r.cells[8].innerText=(amt+tax).toFixed(2);
+    s+=amt; g+=tax; q+=qty;
   });
-}
-loadProducts();
-
-/* ---------- ADD PRODUCT ---------- */
-async function addProduct(){
-  const files = document.getElementById("images").files;
-  let urls=[];
-
-  for(let f of files){
-    const path = Date.now()+"_"+f.name;
-    await sb.storage.from("product-images").upload(path,f);
-    const { data } = sb.storage.from("product-images").getPublicUrl(path);
-    urls.push(data.publicUrl);
-  }
-
-  await sb.from("products").insert([{
-    product_name:pname.value,
-    category:category.value,
-    sku:sku.value,
-    price:price.value,
-    fabric:fabric.value,
-    color:color.value,
-    sizes:sizes.value,
-    description:desc.value,
-    images:urls
-  }]);
-
-  alert("Product added");
-  location.reload();
+  totalQty.innerText=q;
+  sub.innerText=s.toFixed(2);
+  gst.innerText=g.toFixed(2);
+  grand.innerText=(s+g).toFixed(2);
 }
 
-/* ---------- DELETE ---------- */
-async function delProduct(id){
-  if(confirm("Delete product?")){
-    await sb.from("products").delete().eq("id",id);
-    location.reload();
-  }
+function loadImg(i){
+  i.previousElementSibling.querySelector("img").src=
+    URL.createObjectURL(i.files[0]);
 }
+
+addRow();
 </script>
 
 </body>
