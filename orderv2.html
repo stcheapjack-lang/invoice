@@ -142,7 +142,9 @@ textarea{
 }
 
 .table-section{
-  padding:0 25px 25px;
+  padding:0 20px 20px;
+  width:100%;
+  overflow:hidden;
 }
 
 .sample-images{
@@ -167,13 +169,16 @@ textarea{
 
 .sample-preview{
   width:100%;
-  height:180px;
+  min-height:220px;
   border:1px solid #d8dee8;
   border-radius:10px;
   background:#fff;
   display:flex;
+  flex-direction:column;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
+  gap:10px;
+  padding:12px;
   margin-bottom:12px;
 }
 
@@ -203,7 +208,8 @@ textarea{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px;
+  margin-bottom:12px;
+  padding:0 2px;
   flex-wrap:wrap;
   gap:10px;
 }
@@ -227,37 +233,51 @@ textarea{
 }
 
 .table-wrapper{
+  width:100%;
   overflow-x:auto;
+  border:1px solid #d9dfe7;
+  border-radius:12px;
+  background:#fff;
 }
 
 .table{
   width:100%;
   border-collapse:collapse;
-  min-width:900px;
+  table-layout:fixed;
+  min-width:1000px;
 }
 
 .table th{
   background:#0f2d52;
   color:#fff;
-  padding:12px 10px;
+  padding:16px 6px;
   font-size:14px;
   text-align:center;
+  vertical-align:middle;
 }
 
 .table td{
   border:1px solid #d9dfe7;
-  padding:8px;
+  padding:0;
+  overflow:hidden;
   text-align:center;
+  vertical-align:middle;
+  word-break:break-word;
 }
 
 .table input{
   border:none;
   width:100%;
   text-align:center;
-  padding:8px;
-  min-height:42px;
+  padding:12px 8px;
+  min-height:64px;
   background:#fff;
   font-weight:600;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  line-height:1.5;
+  font-size:14px;
 }
 
 .table input:focus{
@@ -282,6 +302,7 @@ textarea{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
+  align-items:stretch;
 }
 
 .summary-box{
@@ -289,6 +310,7 @@ textarea{
   border-radius:10px;
   padding:15px;
   background:#fafbfd;
+  min-height:110px;
 }
 
 .summary-box h4{
@@ -449,13 +471,13 @@ textarea{
         <thead>
           <tr>
             <th style="width:5%; min-width:55px;">S.No</th>
-            <th style="width:22%; min-width:220px;">Item</th>
-            <th style="width:22%; min-width:220px;">Pattern</th>
-            <th style="width:18%; min-width:180px;">Shade</th>
-            <th style="width:8%; min-width:80px;">Size</th>
-            <th style="width:6%; min-width:60px;">Qty</th>
-            <th style="width:10%; min-width:100px;">Rate</th>
-            <th style="width:10%; min-width:110px;">Amount</th>
+            <th style="width:30%; min-width:300px;">Item</th>
+            <th style="width:25%; min-width:250px;">Pattern</th>
+            <th style="width:20%; min-width:200px;">Shade</th>
+            <th style="width:6%; min-width:70px;">Size</th>
+            <th style="width:5%; min-width:60px;">Qty</th>
+            <th style="width:7%; min-width:90px;">Rate</th>
+            <th style="width:7%; min-width:90px;">Amount</th>
             <th style="width:4%; min-width:60px;">Delete</th>
           </tr>
         </thead>
@@ -508,7 +530,7 @@ textarea{
 
       <div class="sample-box">
         <div class="sample-preview">
-          <input type="file" accept="image/*" onchange="previewImage(event,this)" style="margin-bottom:10px; font-size:12px; width:100%;">
+          <input type="file" accept="image/*" onchange="previewImage(event,this)" style="font-size:12px; width:100%; padding:6px; border:1px solid #d8dee8; border-radius:8px; background:#fff;">
           <img class="preview-img" style="display:none; width:100%; height:140px; object-fit:contain; border-radius:8px; margin-bottom:10px;">
           <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8">
           <rect x="3" y="3" width="18" height="18" rx="2"></rect>
@@ -525,7 +547,7 @@ textarea{
 
       <div class="sample-box">
         <div class="sample-preview">
-          <input type="file" accept="image/*" onchange="previewImage(event,this)" style="margin-bottom:10px; font-size:12px; width:100%;">
+          <input type="file" accept="image/*" onchange="previewImage(event,this)" style="font-size:12px; width:100%; padding:6px; border:1px solid #d8dee8; border-radius:8px; background:#fff;">
           <img class="preview-img" style="display:none; width:100%; height:140px; object-fit:contain; border-radius:8px; margin-bottom:10px;">
           <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8">
           <rect x="3" y="3" width="18" height="18" rx="2"></rect>
@@ -542,7 +564,7 @@ textarea{
 
       <div class="sample-box">
         <div class="sample-preview">
-          <input type="file" accept="image/*" onchange="previewImage(event,this)" style="margin-bottom:10px; font-size:12px; width:100%;">
+          <input type="file" accept="image/*" onchange="previewImage(event,this)" style="font-size:12px; width:100%; padding:6px; border:1px solid #d8dee8; border-radius:8px; background:#fff;">
           <img class="preview-img" style="display:none; width:100%; height:140px; object-fit:contain; border-radius:8px; margin-bottom:10px;">
           <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8">
           <rect x="3" y="3" width="18" height="18" rx="2"></rect>
@@ -576,7 +598,7 @@ function addRow(){
   const row = table.insertRow();
 
   row.innerHTML = `
-    <td>${rowCount}</td>
+    <td style="font-weight:bold;">${rowCount}</td>
     <td><input type="text"></td>
     <td><input type="text"></td>
     <td><input type="text"></td>
